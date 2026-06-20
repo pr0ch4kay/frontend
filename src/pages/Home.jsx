@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 
 export default function Home() {
-  const { user, addBooking } = useAuth();
+  const { user, addBooking, logout } = useAuth();
   const [bookingData, setBookingData] = useState({ master: '', time: '', service: 'Косметология' });
   const [progress, setProgress] = useState(0);
   const [status, setStatus] = useState('');
@@ -179,45 +179,6 @@ export default function Home() {
 
   return (
     <>
-      <style>{`
-        .modal-overlay { position: fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.7); backdrop-filter:blur(8px); z-index:2000; display:flex; align-items:center; justify-content:center; }
-        .modal-content { background:white; border-radius:48px; max-width:500px; width:90%; padding:32px; position:relative; animation:fadeInUp 0.3s ease; }
-        @keyframes fadeInUp { from{opacity:0; transform:translateY(30px);} to{opacity:1; transform:translateY(0);} }
-        .close-modal { position:absolute; top:20px; right:24px; font-size:28px; cursor:pointer; color:#999; }
-        .close-modal:hover { color:#D4AF7A; }
-        .testimonial-slider { position:relative; background:white; border-radius:48px; padding:30px; }
-        .slider-btn { position:absolute; top:50%; transform:translateY(-50%); background:white; border:1px solid #D4AF7A; width:40px; height:40px; border-radius:40px; cursor:pointer; font-size:20px; transition:0.2s; z-index:10; }
-        .slider-btn:hover { background:#D4AF7A; color:white; }
-        .slider-left { left:-20px; }
-        .slider-right { right:-20px; }
-        .discount-card { position:relative; background:linear-gradient(135deg, #FDF5E6, #FFF8F0); border-radius:64px; padding:60px 40px; text-align:center; box-shadow:0 30px 40px -20px rgba(212,175,122,0.4); border:1px solid rgba(212,175,122,0.3); transition:transform 0.4s; }
-        .discount-card:hover { transform:translateY(-5px); }
-        .discount-badge { background:rgba(212,175,122,0.15); backdrop-filter:blur(4px); padding:6px 18px; border-radius:40px; font-size:13px; color:#B68B40; display:inline-block; margin-bottom:20px; }
-        .discount-title { font-size:46px; font-family:'Cormorant Garamond', serif; font-weight:600; margin-bottom:12px; }
-        .discount-highlight { color:#D4AF7A; font-size:58px; text-shadow:0 2px 10px rgba(212,175,122,0.3); }
-        .luxury-timer { display:flex; justify-content:center; align-items:center; gap:15px; margin:40px 0; flex-wrap:wrap; }
-        .timer-block { background:#2C2826; border-radius:24px; padding:12px 20px; min-width:90px; box-shadow:0 8px 20px rgba(0,0,0,0.2); }
-        .timer-number { font-size:42px; font-weight:700; color:#D4AF7A; line-height:1; letter-spacing:2px; }
-        .timer-label { font-size:11px; text-transform:uppercase; color:#CBC2B9; margin-top:6px; }
-        .timer-separator { font-size:40px; font-weight:700; color:#D4AF7A; margin-bottom:20px; }
-        .btn-discount { background:linear-gradient(95deg, #D4AF7A, #C29B62); border:none; padding:16px 42px; font-weight:600; color:white; border-radius:60px; cursor:pointer; transition:0.3s; }
-        .btn-discount:hover { transform:scale(1.02); }
-        .masters-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:30px; margin-top:40px; }
-        .master-card { background:white; border-radius:32px; padding:24px; text-align:center; transition:0.3s; border:1px solid #F0E4D8; }
-        .master-card:hover { transform:translateY(-5px); border-color:#D4AF7A; }
-        .master-img { width:140px; height:140px; border-radius:50%; object-fit:cover; margin:0 auto 20px; border:3px solid #D4AF7A; }
-        .partner-card { background:white; border-radius:24px; padding:16px 24px; transition:0.3s; }
-        .partner-card:hover { transform:translateY(-5px); }
-        .rating-stars { display:flex; gap:8px; font-size:28px; cursor:pointer; color:#EADBCE; }
-        .rating-star.active { color:#D4AF7A; }
-        @media (max-width:780px) {
-          .slider-left { left:5px; } .slider-right { right:5px; }
-          .timer-block { min-width:65px; padding:8px 12px; }
-          .timer-number { font-size:28px; }
-          .discount-title { font-size:32px; }
-        }
-      `}</style>
-
       <header>
         <div className="container header-inner">
           <Link to="/" className="logo">Pure<span>Aura</span></Link>
@@ -228,8 +189,10 @@ export default function Home() {
             <a href="#reviews">Отзывы</a>
             {user ? (
               <>
-                <Link to="/profile">{user.name}</Link>
-                <button onClick={() => { localStorage.removeItem('token'); window.location.reload(); }} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>Выйти</button>
+                <Link to="/profile" style={{ fontWeight: 600, color: '#D4AF7A', textDecoration: 'none' }}>
+                  {user.name}
+                </Link>
+                <button onClick={logout} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', marginLeft: '12px' }}>Выйти</button>
               </>
             ) : (
               <Link to="/login">Войти</Link>

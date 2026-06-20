@@ -41,7 +41,7 @@ h1, h2, h3, .logo {
   padding: 0 32px;
 }
 
-/* ---------- ХЕДЕР ЦЕНТРИРОВАННЫЙ ---------- */
+/* ---------- ХЕДЕР ---------- */
 header {
   position: fixed;
   top: 0;
@@ -163,7 +163,30 @@ header {
   transform: translateY(0);
 }
 
-/* ---------- HERO СЕКЦИЯ ---------- */
+/* ---------- СЕКЦИИ ---------- */
+.section {
+  padding: 100px 0;
+  position: relative;
+}
+.section-title {
+  text-align: center;
+  font-size: 52px;
+  margin-bottom: 20px;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+.section-title:after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 3px;
+  background: #D4AF7A;
+  margin: 16px auto 0;
+  border-radius: 3px;
+}
+
+/* ---------- HERO СЕКЦИЯ (видео + текст) ---------- */
 .hero {
   min-height: 100vh;
   display: flex;
@@ -211,29 +234,6 @@ header {
   display: block;
   aspect-ratio: 4/3;
   object-fit: cover;
-}
-
-/* ---------- СЕКЦИИ ---------- */
-.section {
-  padding: 100px 0;
-  position: relative;
-}
-.section-title {
-  text-align: center;
-  font-size: 52px;
-  margin-bottom: 20px;
-  position: relative;
-  display: inline-block;
-  width: 100%;
-}
-.section-title:after {
-  content: '';
-  display: block;
-  width: 80px;
-  height: 3px;
-  background: #D4AF7A;
-  margin: 16px auto 0;
-  border-radius: 3px;
 }
 
 /* ---------- КАРТОЧКИ УСЛУГ ---------- */
@@ -304,33 +304,52 @@ header {
   filter: brightness(0.96);
 }
 
-/* ---------- БЛОК ДО/ПОСЛЕ ---------- */
-.before-after {
-  display: flex;
+/* ---------- МАСТЕРА ---------- */
+.masters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 30px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 30px;
+  margin-top: 40px;
 }
-.before-after img {
-  width: calc(50% - 15px);
-  min-width: 260px;
+.master-card {
+  background: white;
   border-radius: 32px;
-  box-shadow: 0 20px 30px -10px rgba(0,0,0,0.15);
+  padding: 24px;
+  text-align: center;
   transition: 0.3s;
+  border: 1px solid #F0E4D8;
 }
-.before-after img:hover {
-  transform: scale(1.01);
+.master-card:hover {
+  transform: translateY(-5px);
+  border-color: #D4AF7A;
+}
+.master-img {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 20px;
+  border: 3px solid #D4AF7A;
 }
 
-/* DISCOUNT CARD - PREMIUM STYLE */
+/* ---------- ПАРТНЁРЫ ---------- */
+.partner-card {
+  background: white;
+  border-radius: 24px;
+  padding: 16px 24px;
+  transition: 0.3s;
+}
+.partner-card:hover {
+  transform: translateY(-5px);
+}
+
+/* ---------- АКЦИЯ (DISCOUNT CARD) ---------- */
 .discount-card {
   position: relative;
-  background: linear-gradient(135deg, #FDF5E6 0%, #FFF8F0 100%);
+  background: linear-gradient(135deg, #FDF5E6, #FFF8F0);
   border-radius: 64px;
   padding: 60px 40px;
   text-align: center;
-  overflow: hidden;
   box-shadow: 0 30px 40px -20px rgba(212, 175, 122, 0.4);
   border: 1px solid rgba(212, 175, 122, 0.3);
   transition: transform 0.4s, box-shadow 0.4s;
@@ -389,7 +408,7 @@ header {
   justify-content: center;
   align-items: center;
   gap: 15px;
-  margin-bottom: 40px;
+  margin: 40px 0;
   flex-wrap: wrap;
 }
 .timer-block {
@@ -444,17 +463,6 @@ header {
 }
 .btn-discount:hover i {
   transform: translateX(5px);
-}
-
-@media (max-width: 680px) {
-  .discount-card { padding: 40px 20px; }
-  .discount-title { font-size: 32px; }
-  .discount-highlight { font-size: 40px; }
-  .timer-block { padding: 8px 12px; min-width: 65px; }
-  .timer-number { font-size: 28px; }
-  .timer-separator { font-size: 28px; margin-bottom: 10px; }
-  .luxury-timer { gap: 8px; }
-  .btn-discount { padding: 12px 28px; font-size: 14px; }
 }
 
 /* ---------- ФОРМА ЗАПИСИ ---------- */
@@ -516,6 +524,93 @@ header {
   box-shadow: 0 12px 20px -8px rgba(0,0,0,0.05);
 }
 
+/* ---------- МОДАЛЬНЫЕ ОКНА И СЛАЙДЕР ---------- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  background: white;
+  border-radius: 48px;
+  max-width: 500px;
+  width: 90%;
+  padding: 32px;
+  position: relative;
+  animation: fadeInUp 0.3s ease;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.close-modal {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  font-size: 28px;
+  cursor: pointer;
+  color: #999;
+}
+.close-modal:hover {
+  color: #D4AF7A;
+}
+
+.testimonial-slider {
+  position: relative;
+  background: white;
+  border-radius: 48px;
+  padding: 30px;
+}
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  border: 1px solid #D4AF7A;
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+  cursor: pointer;
+  font-size: 20px;
+  transition: 0.2s;
+  z-index: 10;
+}
+.slider-btn:hover {
+  background: #D4AF7A;
+  color: white;
+}
+.slider-left {
+  left: -20px;
+}
+.slider-right {
+  right: -20px;
+}
+
+.rating-stars {
+  display: flex;
+  gap: 8px;
+  font-size: 28px;
+  cursor: pointer;
+  color: #EADBCE;
+}
+.rating-star.active {
+  color: #D4AF7A;
+}
+
 /* ---------- ФУТЕР И ФИКС КНОПКИ ---------- */
 .fixed-buttons {
   position: fixed;
@@ -552,25 +647,36 @@ footer {
   text-align: center;
 }
 
-/* ---------- АДАПТИВ ---------- */
+/* ---------- АДАПТИВНОСТЬ ---------- */
 @media (max-width: 880px) {
   .hero-content h1 { font-size: 48px; }
   .section-title { font-size: 40px; }
   .nav-links { gap: 24px; }
   .header-inner { gap: 24px; }
   .contact-row { padding: 32px; }
-  .timer { font-size: 28px; padding: 8px 20px; }
+}
+@media (max-width: 780px) {
+  .slider-left { left: 5px; }
+  .slider-right { right: 5px; }
+  .timer-block { min-width: 65px; padding: 8px 12px; }
+  .timer-number { font-size: 28px; }
+  .discount-title { font-size: 32px; }
 }
 @media (max-width: 680px) {
   .nav-links { display: none; }
   .header-inner { justify-content: space-between; }
   .before-after img { width: 100%; }
-  .promo-box { padding: 40px 20px; }
+  .discount-card { padding: 40px 20px; }
+  .discount-highlight { font-size: 40px; }
+  .timer-separator { font-size: 28px; margin-bottom: 10px; }
+  .luxury-timer { gap: 8px; }
+  .btn-discount { padding: 12px 28px; font-size: 14px; }
 }
+
 /* ---------- СТРАНИЦЫ АВТОРИЗАЦИИ ---------- */
 .auth-page {
   min-height: 100vh;
-  background: linear-gradient(145deg, #FFF9F5 0%, #FFF4EC 100%);
+  background: linear-gradient(145deg, #FFF9F5, #FFF4EC);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -589,9 +695,7 @@ footer {
   font-size: 15px;
   transition: 0.2s;
 }
-.auth-back-home:hover {
-  color: #D4AF7A;
-}
+.auth-back-home:hover { color: #D4AF7A; }
 .auth-card {
   background: white;
   border-radius: 48px;
@@ -626,10 +730,7 @@ footer {
   border-color: #D4AF7A;
   box-shadow: 0 0 0 3px rgba(212,175,122,0.2);
 }
-.auth-btn {
-  width: 100%;
-  margin-top: 10px;
-}
+.auth-btn { width: 100%; margin-top: 10px; }
 .auth-footer {
   text-align: center;
   margin-top: 28px;
@@ -640,17 +741,13 @@ footer {
   text-decoration: none;
   font-weight: 500;
 }
-.profile-container {
-  background: #FFF9F5;
-  min-height: 100vh;
-}
-/* ===== ЛИЧНЫЙ КАБИНЕТ ===== */
+
+/* ---------- ЛИЧНЫЙ КАБИНЕТ ---------- */
 .profile-page {
   min-height: 100vh;
   background: linear-gradient(145deg, #FFF9F5 0%, #FFF2E8 100%);
   padding-top: 100px;
 }
-
 .profile-header {
   position: fixed;
   top: 0;
@@ -662,14 +759,12 @@ footer {
   z-index: 100;
   border-bottom: 1px solid rgba(212, 175, 122, 0.3);
 }
-
 .profile-nav {
   display: flex;
   justify-content: flex-end;
   gap: 24px;
   align-items: center;
 }
-
 .profile-home-btn, .profile-logout-btn {
   background: transparent;
   border: 1px solid #D4AF7A;
@@ -683,19 +778,16 @@ footer {
   color: #2C2826;
   display: inline-block;
 }
-
 .profile-home-btn:hover, .profile-logout-btn:hover {
   background: #D4AF7A;
   color: white;
   transform: translateY(-2px);
 }
-
 .profile-content {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 28px 60px;
 }
-
 .profile-welcome-card {
   background: white;
   border-radius: 48px;
@@ -708,7 +800,6 @@ footer {
   border: 1px solid #F0E4D8;
   flex-wrap: wrap;
 }
-
 .profile-avatar {
   width: 90px;
   height: 90px;
@@ -723,7 +814,6 @@ footer {
   text-transform: uppercase;
   box-shadow: 0 10px 20px rgba(212, 175, 122, 0.3);
 }
-
 .profile-welcome-text h2 {
   font-size: 32px;
   margin-bottom: 8px;
@@ -737,7 +827,6 @@ footer {
   color: #8B7A6B;
   font-size: 16px;
 }
-
 .profile-stats {
   display: flex;
   flex-wrap: wrap;
@@ -745,7 +834,6 @@ footer {
   margin-bottom: 50px;
   justify-content: center;
 }
-
 .stat-item {
   background: white;
   border-radius: 40px;
@@ -770,7 +858,6 @@ footer {
   font-size: 14px;
   color: #5E554B;
 }
-
 .profile-section-title {
   font-size: 28px;
   margin-bottom: 30px;
@@ -786,14 +873,12 @@ footer {
   background: #D4AF7A;
   margin-top: 8px;
 }
-
 .bookings-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 30px;
   margin-top: 20px;
 }
-
 .booking-card {
   background: white;
   border-radius: 32px;
@@ -807,7 +892,6 @@ footer {
   border-color: #D4AF7A;
   box-shadow: 0 20px 30px -12px rgba(212,175,122,0.2);
 }
-
 .booking-card-header {
   display: flex;
   align-items: center;
@@ -861,7 +945,6 @@ footer {
   border-color: #D4AF7A;
   color: #5C3A1E;
 }
-
 .empty-bookings {
   text-align: center;
   background: white;
@@ -875,83 +958,7 @@ footer {
   font-size: 18px;
 }
 
-@media (max-width: 680px) {
-  .profile-welcome-card {
-    flex-direction: column;
-    text-align: center;
-  }
-  .profile-stats {
-    gap: 15px;
-  }
-  .stat-item {
-    min-width: 120px;
-    padding: 12px 20px;
-  }
-  .bookings-grid {
-    grid-template-columns: 1fr;
-  }
-}
-.auth-page {
-  min-height: 100vh;
-  background: linear-gradient(145deg, #FFF9F5, #FFF4EC);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-}
-.auth-container {
-  width: 100%;
-  max-width: 500px;
-}
-.auth-back-home {
-  display: inline-block;
-  margin-bottom: 24px;
-  color: #8B7355;
-  text-decoration: none;
-}
-.auth-back-home:hover { color: #D4AF7A; }
-.auth-card {
-  background: white;
-  border-radius: 48px;
-  padding: 48px 40px;
-  box-shadow: 0 25px 45px -12px rgba(0,0,0,0.12);
-  border: 1px solid #F0E4D8;
-}
-.auth-card h2 {
-  font-size: 36px;
-  margin-bottom: 8px;
-  text-align: center;
-}
-.auth-subtitle {
-  text-align: center;
-  color: #8B7A6B;
-  margin-bottom: 32px;
-}
-.input-group {
-  margin-bottom: 20px;
-}
-.input-group input {
-  width: 100%;
-  padding: 16px 24px;
-  border: 1px solid #EADBCE;
-  border-radius: 60px;
-  font-size: 16px;
-  background: #FFFCF8;
-}
-.auth-btn {
-  width: 100%;
-  margin-top: 10px;
-}
-.auth-footer {
-  text-align: center;
-  margin-top: 28px;
-  color: #7A6E62;
-}
-.auth-footer a {
-  color: #D4AF7A;
-  text-decoration: none;
-}
-/* ===== ГОСТЕВАЯ СТРАНИЦА ЛИЧНОГО КАБИНЕТА ===== */
+/* ---------- ГОСТЕВАЯ СТРАНИЦА ---------- */
 .profile-guest-page {
   min-height: 100vh;
   background: linear-gradient(145deg, #FFF9F5 0%, #FFF4EC 100%);
@@ -1003,14 +1010,4 @@ footer {
 }
 .guest-back:hover {
   color: #D4AF7A;
-}
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
