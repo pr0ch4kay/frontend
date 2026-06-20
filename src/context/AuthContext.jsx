@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
   const [verifyEmail, setVerifyEmail] = useState("");
 
   const register = async (email, password) => {
-    const res = await fetch("/api/register", {
+    const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: {"Content-Type":"application/json"},
       body: JSON.stringify({ email, password })
@@ -25,7 +25,7 @@ export function AuthProvider({ children }) {
   };
 
   const verify = async (code) => {
-    const res = await fetch("/api/verify", {
+    const res = await fetch("/api/auth/verify", {
       method: "POST",
       headers: {"Content-Type":"application/json"},
       body: JSON.stringify({ email: verifyEmail, code })
@@ -42,7 +42,7 @@ export function AuthProvider({ children }) {
   };
 
   const login = async (email, password) => {
-    const res = await fetch("/api/login", {
+    const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: {"Content-Type":"application/json"},
       body: JSON.stringify({ email, password })
