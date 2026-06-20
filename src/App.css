@@ -1012,19 +1012,25 @@ footer {
   .header-inner {
     justify-content: space-between;
     padding: 0 16px;
-    gap: 16px;
+    gap: 8px; /* Уменьшили отступы */
   }
   .logo {
-    font-size: 24px;
+    font-size: 22px;
     border-right: none;
     padding-right: 0;
+    white-space: nowrap; /* Чтобы логотип не ломался */
   }
   .nav-links {
-    gap: 12px;
-    font-size: 14px;
+    display: flex;          /* Убеждаемся, что это flex, а не none! */
+    flex-wrap: wrap;        /* Кнопки будут переноситься на новую строку */
+    justify-content: flex-end;
+    gap: 8px;
+    font-size: 13px;
   }
-  .nav-links a, .nav-links button { font-size: 14px; }
-
+  .nav-links a, .nav-links button { 
+    font-size: 13px; 
+    padding: 4px 6px; /* Чуть-чуть воздуха вокруг текста */
+  }
   /* --- Герой (видео и текст) --- */
   .hero-content h1 { 
     font-size: 36px !important; 

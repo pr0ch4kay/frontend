@@ -390,8 +390,21 @@ export default function Home() {
               </>
             ) : (
               <div style={{ textAlign: 'center' }}>
-                <p>Для записи необходимо войти в аккаунт.</p>
-                <Link to="/login" className="btn-solid" style={{ display: 'inline-block', marginTop: 20 }}>Войти</Link> или <Link to="/register" className="btn-gold">Зарегистрироваться</Link>
+                <p style={{ marginBottom: '24px' }}>Для записи необходимо войти в аккаунт.</p>
+                
+                {/* Контейнер для кнопок */}
+                <div style={{ 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  gap: '12px', 
+                  alignItems: 'center' 
+                }}>
+                  <Link to="/login" className="btn-solid" style={{ width: '100%', maxWidth: '280px' }}>Войти</Link>
+                  
+                  <div style={{ fontSize: '14px', color: '#7A6E62' }}>или</div>
+                  
+                  <Link to="/register" className="btn-gold" style={{ width: '100%', maxWidth: '280px' }}>Зарегистрироваться</Link>
+                </div>
               </div>
             )}
           </div>
