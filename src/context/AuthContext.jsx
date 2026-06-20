@@ -46,21 +46,32 @@ export const AuthProvider = ({ children }) => {
   };
 
   // === РЕГИСТРАЦИЯ ===
-  const register = async (email, password, name) => {
-    const res = await fetch(`${API_URL}/api/auth/register`, {
+ const register = async (email, password, name) => {
+  try {
+    const res = await fetch('https://pure-backend-pz7z.onrender.com/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password })
     });
-    
+
+    // Сначала пытаемся прочитать JSON из ответа (даже если 502)
     const data = await res.json();
+
+    // Если сервер ответил ошибкой (502 или 400)
     if (!res.ok) {
-      throw new Error(data.msg || 'Ошибка регистрации');
+      // Выбрасываем ошибку с текстом от бэкенда
+      throw new Error(data.msg || data.message || `Ошибка сервера (${res.status})`);
     }
-    
+
+    // Если всё ок - открываем модалку
     setVerifyEmail(email);
     setShowVerify(true);
-  };
+
+  } catch (err) {
+    // Пробрасываем ошибку в Register.jsx
+    throw err;
+  }
+};
 
   // === ПОДТВЕРЖДЕНИЕ КОДА ===
   const verify = async (code) => {
