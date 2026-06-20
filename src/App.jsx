@@ -1,16 +1,14 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Profile from './pages/Profile';
+import VerifyModal from './pages/VerifyModal';
 import './App.css';
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider, useAuth } from "./context/AuthContext";
-
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Profile from "./pages/Profile";
-import VerifyModal from "./pages/VerifyModal";
-
 function AppInner() {
-  const { showVerify, setShowVerify, verifyEmail, verify } = useAuth();
+  const { showVerify, setShowVerify, verifyEmail, verify, resendCode } = useAuth();
 
   return (
     <>
@@ -19,7 +17,7 @@ function AppInner() {
         email={verifyEmail}
         onClose={() => setShowVerify(false)}
         onVerify={verify}
-        onResend={() => {}}
+        onResend={resendCode}
       />
 
       <Routes>

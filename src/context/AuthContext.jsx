@@ -1,74 +1,166 @@
-
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
-export function AuthProvider({ children }) {
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+  // Стейты для верификации
   const [showVerify, setShowVerify] = useState(false);
-  const [verifyEmail, setVerifyEmail] = useState("");
+  const [verifyEmail, setVerifyEmail] = useState('');
 
-  const register = async (email, password) => {
-    const res = await fetch("/api/register", {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({ email, password })
+  // Базовый URL бэкенда
+  const API_URL = 'https://pure-backend-pz7z.onrender.com';
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      fetchUser(token);
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
+  const fetchUser = async (token) => {
+    try {
+      await fetchBookings(token);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchBookings = async (token) => {
+    const res = await fetch(`${API_URL}/api/bookings`, {
+      headers: { 'Authorization': `Bearer ${token}` }
     });
+    if (res.ok) {
+      const data = await res.json();
+      setBookings(data);
+    }
+  };
 
-    if (!res.ok) throw new Error("register failed");
-
+  // === РЕГИСТРАЦИЯ ===
+  const register = async (email, password, name) => {
+    const res = await fetch(`${API_URL}/api/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password })
+    });
+    
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.msg || 'Ошибка регистрации');
+    }
+    
     setVerifyEmail(email);
     setShowVerify(true);
   };
 
+  // === ПОДТВЕРЖДЕНИЕ КОДА ===
   const verify = async (code) => {
-    const res = await fetch("/api/verify", {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
+    const res = await fetch(`${API_URL}/api/auth/verify`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: verifyEmail, code })
     });
-
-    if (!res.ok) throw new Error("verify failed");
-
+    
     const data = await res.json();
-
-    setToken(data.token);
-    localStorage.setItem("token", data.token);
+    if (!res.ok) {
+      throw new Error(data.msg || 'Неверный код');
+    }
+    
+    localStorage.setItem('token', data.token);
     setUser(data.user);
+    await fetchBookings(data.token);
     setShowVerify(false);
+    setVerifyEmail('');
   };
 
+  // === ПОВТОРНАЯ ОТПРАВКА КОДА ===
+  const resendCode = async () => {
+    // Можно вызвать эндпоинт /api/auth/resend, если он есть на бэке
+    console.log('Повторная отправка кода на:', verifyEmail);
+  };
+
+  // === ЛОГИН ===
   const login = async (email, password) => {
-    const res = await fetch("/api/login", {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
+    const res = await fetch(`${API_URL}/api/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
     });
-
-    if (!res.ok) throw new Error("login failed");
-
+    
     const data = await res.json();
-
-    setToken(data.token);
-    localStorage.setItem("token", data.token);
+    if (!res.ok) {
+      throw new Error(data.msg || 'Ошибка входа');
+    }
+    
+    localStorage.setItem('token', data.token);
     setUser(data.user);
+    await fetchBookings(data.token);
+    return true;
+  };
+
+  // === ВЫХОД ===
+  const logout = () => {
+    localStorage.removeItem('token');
+    setUser(null);
+    setBookings([]);
+  };
+
+  // === БРОНИРОВАНИЕ ===
+  const addBooking = async (bookingData) => {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`${API_URL}/api/bookings`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(bookingData)
+    });
+    if (res.ok) {
+      const newBooking = await res.json();
+      setBookings(prev => [...prev, newBooking]);
+    } else {
+      throw new Error('Не удалось создать запись');
+    }
+  };
+
+  const cancelBooking = async (id) => {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`${API_URL}/api/bookings/${id}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (res.ok) {
+      setBookings(prev => prev.filter(b => b.id !== id));
+    }
   };
 
   return (
-    <AuthContext.Provider value={{
-      user,
-      token,
-      register,
-      login,
-      verify,
+    <AuthContext.Provider value={{ 
+      user, 
+      register, 
+      login, 
+      logout, 
+      bookings, 
+      addBooking, 
+      cancelBooking, 
+      loading,
       showVerify,
-      setShowVerify,
-      verifyEmail
+      verifyEmail,
+      verify,
+      resendCode,
+      setShowVerify
     }}>
       {children}
     </AuthContext.Provider>
   );
-}
+};
