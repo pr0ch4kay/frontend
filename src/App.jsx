@@ -6,8 +6,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Verify from './pages/Verify';
 import Profile from './pages/Profile';
+import VerifyModal from "./pages/VerifyModal";
 
-import VerifyModal from './components/VerifyModal'; // ✅ NEW
 
 import './App.css';
 
