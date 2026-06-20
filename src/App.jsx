@@ -1,18 +1,15 @@
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Verify from './pages/Verify';
-import Profile from './pages/Profile';
-import VerifyModal from './pages/VerifyModal';
-
-import './App.css';
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Profile from "./pages/Profile";
+import VerifyModal from "./pages/VerifyModal";
 
 function AppInner() {
-  const { showVerify, setShowVerify, verifyEmail } = useAuth();
+  const { showVerify, setShowVerify, verifyEmail, verify } = useAuth();
 
   return (
     <>
@@ -20,7 +17,7 @@ function AppInner() {
         isOpen={showVerify}
         email={verifyEmail}
         onClose={() => setShowVerify(false)}
-        onVerify={verifyEmail}
+        onVerify={verify}
         onResend={() => {}}
       />
 
@@ -29,7 +26,6 @@ function AppInner() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/verify" element={<Verify />} />
       </Routes>
     </>
   );
