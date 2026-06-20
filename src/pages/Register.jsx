@@ -6,7 +6,7 @@ export default function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { register } = useAuth();
+  const { register, setShowVerify } = useAuth();
   const navigate = useNavigate();
 
  const handleSubmit = async (e) => {
@@ -16,7 +16,7 @@ export default function Register() {
     const ok = await register(email, password, name);
 
     if (ok) {
-      navigate('/verify', { state: { email } });
+      setShowVerify(true);
     }
 
   } catch (err) {
