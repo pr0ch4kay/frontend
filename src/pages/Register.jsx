@@ -9,15 +9,20 @@ export default function Register() {
   const { register } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await register(email, password, name);
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const ok = await register(email, password, name);
+
+    if (ok) {
       navigate('/verify', { state: { email } });
-    } catch (err) {
-      alert('Пользователь с таким email уже существует');
     }
-  };
+
+  } catch (err) {
+    alert(err.message || 'Ошибка регистрации');
+  }
+};
 
   return (
     <div className="auth-page">

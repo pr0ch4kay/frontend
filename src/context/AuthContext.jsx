@@ -56,24 +56,22 @@ export const AuthProvider = ({ children }) => {
   // REGISTER 
   // =========================
   const register = async (email, password, name) => {
-    const res = await fetch('https://pure-backend-pz7z.onrender.com/api/auth/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, password })
-    });
+  const res = await fetch('https://pure-backend-pz7z.onrender.com/api/auth/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, password })
+  });
 
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.message);
-    }
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.message);
+  }
 
-    const data = await res.json();
+  const data = await res.json();
 
-    // ✔ NEW: wait for email verification
-    setShowVerify(true);
-
-    return true;
-  };
+  // ❗ важно: НЕ логиним сразу
+  return true;
+};
 
   // =========================
   // VERIFY EMAIL
