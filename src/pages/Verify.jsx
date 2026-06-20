@@ -9,20 +9,20 @@ export default function Verify() {
 
   const email = location.state?.email;
 
-  const handleVerify = async () => {
-    const res = await fetch("https://pure-backend-pz7z.onrender.com/api/auth/verify", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, code })
-    });
+ const verifyEmail = async () => {
+  const res = await fetch('https://pure-backend-pz7z.onrender.com/api/auth/verify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ code })
+  });
 
-    if (res.ok) {
-      alert("Verified");
-      navigate("/login");
-    } else {
-      alert("Wrong code");
-    }
-  };
+  if (res.ok) {
+    const data = await res.json();
+
+    localStorage.setItem('token', data.token);
+    navigate('/profile');
+  }
+};
 
   return (
     <div style={{padding:20}}>
