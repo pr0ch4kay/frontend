@@ -44,7 +44,8 @@ export default function Home() {
         body: JSON.stringify({
           text: reviewText,
           stars: reviewRating,
-          master: reviewMaster
+          master: reviewMaster,
+          name: user.name // <--- ДОБАВИЛ ЭТУ СТРОКУ!
         })
       });
       if (!res.ok) throw new Error('Ошибка');
