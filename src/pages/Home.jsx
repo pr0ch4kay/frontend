@@ -149,42 +149,42 @@ export default function Home() {
       name: 'Анна Вольская', 
       role: 'Косметолог-эстетист', 
       exp: '12 лет опыта', 
-      img: 'https://i.ibb.co/MCM65yH/anna-cosmetolog.jpg', 
+      img: 'https://i.pinimg.com/736x/5c/f3/61/5cf361909bae28eeba4ed626bae2849c.jpg', 
       special: 'Лицо, инъекции' 
     },
     { 
       name: 'Екатерина Ли', 
       role: 'Топ-стилист', 
       exp: '9 лет, эксперт', 
-      img: 'https://i.ibb.co/bP5Jz7d/ekaterina-hair.jpg', 
+      img: 'https://i.pinimg.com/736x/0d/e7/9c/0de79c115b85c172f7f1c90d4705eb0b.jpg', 
       special: 'Окрашивание, стрижки' 
     },
     { 
       name: 'Мария Теплова', 
       role: 'Визажист', 
       exp: 'Международные сертификаты', 
-      img: 'https://i.ibb.co/3C75jQV/mariya-makeup.jpg', 
+      img: 'https://i.pinimg.com/736x/0e/09/34/0e09344590e4e662c0e77c1573910f93.jpg', 
       special: 'Свадебный макияж' 
     },
     { 
-      name: 'Дмитрий Кравцов', 
+      name: 'Лидия Кравцова', 
       role: 'Мастер маникюра', 
       exp: '7 лет', 
-      img: 'https://i.ibb.co/GWmfWTS/dmitry-manicure.jpg', 
+      img: 'https://i.pinimg.com/736x/83/69/c4/8369c45a0611c256f189eceb79b85409.jpg', 
       special: 'Дизайн, укрепление' 
     },
     { 
       name: 'Ольга Смирнова', 
       role: 'Специалист по лазерной эпиляции', 
       exp: '5 лет', 
-      img: 'https://i.ibb.co/6PzB3Gk/olga-laser.jpg', 
+      img: 'https://i.pinimg.com/736x/a5/2b/fb/a52bfbdc6d23f15edc9794ef47d556b7.jpg', 
       special: 'Все зоны' 
     },
     { 
       name: 'Ирина Мельник', 
       role: 'Косметолог-эстетист', 
       exp: '10 лет', 
-      img: 'https://i.ibb.co/fq01nKt/irina-care.jpg', 
+      img: 'https://i.pinimg.com/736x/2a/9e/fd/2a9efd69b6f51b2c0c6ebeb0d520eefe.jpg', 
       special: 'Уходовые процедуры' 
     }
   ];
@@ -197,7 +197,7 @@ export default function Home() {
       price: 'от 4500 ₽', 
       duration: '60–90 мин', 
       icon: 'fa-spa', 
-      img: 'https://i.ibb.co/1d4n0qH/service-cosmetology.jpg' 
+      img: 'https://i.pinimg.com/736x/c8/b4/10/c8b410d59a933e80b597e944d767fe92.jpg' 
     },
     { 
       title: 'Волосы', 
@@ -205,7 +205,7 @@ export default function Home() {
       price: 'от 5500 ₽', 
       duration: '120–180 мин', 
       icon: 'fa-cut', 
-      img: 'https://i.ibb.co/2dSZR9v/service-hair.jpg' 
+      img: 'https://i.pinimg.com/736x/4b/38/32/4b3832efab738c17125de2cdacb336b7.jpg' 
     },
     { 
       title: 'Makeup', 
@@ -213,7 +213,7 @@ export default function Home() {
       price: 'от 3500 ₽', 
       duration: '60 мин', 
       icon: 'fa-makeup', 
-      img: 'https://i.ibb.co/2hS1Nk6/service-makeup.jpg' 
+      img: 'https://i.pinimg.com/736x/6d/11/a2/6d11a2a5dda15a3aae5c06c1ecac95f2.jpg' 
     },
     { 
       title: 'Лазерная эпиляция', 
@@ -221,7 +221,7 @@ export default function Home() {
       price: 'от 1500 ₽', 
       duration: '15–40 мин', 
       icon: 'fa-bolt', 
-      img: 'https://i.ibb.co/CWJmz7q/service-laser.jpg' 
+      img: 'https://i.pinimg.com/736x/15/c3/d3/15c3d3f16b94702002465150f19f9434.jpg' 
     },
     { 
       title: 'Маникюр', 
@@ -229,7 +229,7 @@ export default function Home() {
       price: 'от 2000 ₽', 
       duration: '60 мин', 
       icon: 'fa-hand-peace', 
-      img: 'https://i.ibb.co/x3Pjyy8/service-manicure.jpg' 
+      img: 'https://i.pinimg.com/736x/93/f1/b4/93f1b47512d1ad35f6de51e5add6eff4.jpg' 
     },
     { 
       title: 'Педикюр', 
@@ -237,7 +237,7 @@ export default function Home() {
       price: 'от 2500 ₽', 
       duration: '70 мин', 
       icon: 'fa-shoe-prints', 
-      img: 'https://i.ibb.co/Lp5nLwn/service-pedicure.jpg' 
+      img: 'https://i.pinimg.com/736x/e9/e5/72/e9e572d3d618ba67171d2867867040e6.jpg' 
     }
   ];
 
