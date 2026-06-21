@@ -23,7 +23,7 @@ export default function Profile() {
     );
   }
 
-  // Для авторизованного пользователя – прежний (или улучшенный) личный кабинет
+  // Для авторизованного пользователя
   return (
     <div className="profile-page">
       <div className="profile-header">
@@ -37,16 +37,16 @@ export default function Profile() {
 
       <div className="container profile-content">
         <div className="profile-welcome-card">
-          <div className="profile-avatar">{user.name.charAt(0).toUpperCase()}</div>
+          <div className="profile-avatar">{user.name ? user.name.charAt(0).toUpperCase() : '?'}</div>
           <div className="profile-welcome-text">
-            <h2>Добро пожаловать, <span>{user.name}</span>!</h2>
+            <h2>Добро пожаловать, <span>{user.name || 'Гость'}!</span></h2>
             <p>Ваша персонализированная зона красоты</p>
           </div>
         </div>
 
         <div className="profile-stats">
           <div className="stat-item">
-            <span className="stat-number">{bookings.filter(b => b.userId === user.id).length}</span>
+            <span className="stat-number">{bookings.length}</span>
             <span className="stat-label">активных записей</span>
           </div>
           <div className="stat-item">
@@ -61,14 +61,14 @@ export default function Profile() {
 
         <div className="profile-section">
           <h3 className="profile-section-title">Ваши записи</h3>
-          {bookings.filter(b => b.userId === user.id).length === 0 ? (
+          {bookings.length === 0 ? (
             <div className="empty-bookings">
               <p>У вас пока нет записей</p>
-              <Link to="/#contact" className="btn-solid">Записаться сейчас</Link>
+              <Link to="/" className="btn-solid">Записаться сейчас</Link>
             </div>
           ) : (
             <div className="bookings-grid">
-              {bookings.filter(b => b.userId === user.id).map(booking => (
+              {bookings.map(booking => (
                 <div className="booking-card" key={booking.id}>
                   <div className="booking-card-header">
                     <i className="fas fa-calendar-alt"></i>
