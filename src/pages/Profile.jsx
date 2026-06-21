@@ -2,7 +2,7 @@ import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 
 export default function Profile() {
-  const { user, logout, bookings, cancelBooking } = useAuth();
+  const { user, logout, bookings, cancelBooking, setIsBookingModalOpen } = useAuth();
 
   // Если пользователь не авторизован – показываем красивую карточку с предложением войти
   if (!user) {
@@ -64,7 +64,12 @@ export default function Profile() {
           {bookings.length === 0 ? (
             <div className="empty-bookings">
               <p>У вас пока нет записей</p>
-              <Link to="/" className="btn-solid">Записаться сейчас</Link>
+              <button 
+                className="btn-solid" 
+                onClick={() => setIsBookingModalOpen(true)}
+              >
+                Записаться сейчас
+              </button>
             </div>
           ) : (
             <div className="bookings-grid">
