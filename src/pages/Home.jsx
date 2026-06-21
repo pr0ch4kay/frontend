@@ -143,53 +143,53 @@ export default function Home() {
     setIsBookingModalOpen(true);
   };
 
-    // Список мастеров (6) - с обновлёнными 100% рабочими фото
+          // Список мастеров (6) - фото загружены на надежный хостинг
   const mastersList = [
     { 
       name: 'Анна Вольская', 
       role: 'Косметолог-эстетист', 
       exp: '12 лет опыта', 
-      img: 'https://images.pexels.com/photos/2381069/pexels-photo-2381069.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', 
+      img: 'https://i.ibb.co/MCM65yH/anna-cosmetolog.jpg', 
       special: 'Лицо, инъекции' 
     },
     { 
       name: 'Екатерина Ли', 
       role: 'Топ-стилист', 
       exp: '9 лет, эксперт', 
-      img: 'https://images.pexels.com/photos/8970155/pexels-photo-8970155.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', 
+      img: 'https://i.ibb.co/bP5Jz7d/ekaterina-hair.jpg', 
       special: 'Окрашивание, стрижки' 
     },
     { 
       name: 'Мария Теплова', 
       role: 'Визажист', 
       exp: 'Международные сертификаты', 
-      img: 'https://images.pexels.com/photos/7760622/pexels-photo-7760622.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', 
+      img: 'https://i.ibb.co/3C75jQV/mariya-makeup.jpg', 
       special: 'Свадебный макияж' 
     },
     { 
       name: 'Дмитрий Кравцов', 
       role: 'Мастер маникюра', 
       exp: '7 лет', 
-      img: 'https://images.pexels.com/photos/2881255/pexels-photo-2881255.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', 
+      img: 'https://i.ibb.co/GWmfWTS/dmitry-manicure.jpg', 
       special: 'Дизайн, укрепление' 
     },
     { 
       name: 'Ольга Смирнова', 
       role: 'Специалист по лазерной эпиляции', 
       exp: '5 лет', 
-      img: 'https://images.pexels.com/photos/3913001/pexels-photo-3913001.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', 
+      img: 'https://i.ibb.co/6PzB3Gk/olga-laser.jpg', 
       special: 'Все зоны' 
     },
     { 
       name: 'Ирина Мельник', 
       role: 'Косметолог-эстетист', 
       exp: '10 лет', 
-      img: 'https://images.pexels.com/photos/3265285/pexels-photo-3265285.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', 
+      img: 'https://i.ibb.co/fq01nKt/irina-care.jpg', 
       special: 'Уходовые процедуры' 
     }
   ];
 
-    // Услуги (6) - с обновлёнными рабочими фото
+        // Услуги (6) - фото загружены на надежный хостинг
   const services = [
     { 
       title: 'Косметология', 
@@ -197,7 +197,7 @@ export default function Home() {
       price: 'от 4500 ₽', 
       duration: '60–90 мин', 
       icon: 'fa-spa', 
-      img: 'https://images.pexels.com/photos/4283409/pexels-photo-4283409.jpeg?auto=compress&cs=tinysrgb&w=600' 
+      img: 'https://i.ibb.co/1d4n0qH/service-cosmetology.jpg' 
     },
     { 
       title: 'Волосы', 
@@ -205,7 +205,7 @@ export default function Home() {
       price: 'от 5500 ₽', 
       duration: '120–180 мин', 
       icon: 'fa-cut', 
-      img: 'https://images.pexels.com/photos/3993444/pexels-photo-3993444.jpeg?auto=compress&cs=tinysrgb&w=600' 
+      img: 'https://i.ibb.co/2dSZR9v/service-hair.jpg' 
     },
     { 
       title: 'Makeup', 
@@ -213,7 +213,7 @@ export default function Home() {
       price: 'от 3500 ₽', 
       duration: '60 мин', 
       icon: 'fa-makeup', 
-      img: 'https://images.pexels.com/photos/1391353/pexels-photo-1391353.jpeg?auto=compress&cs=tinysrgb&w=600' 
+      img: 'https://i.ibb.co/2hS1Nk6/service-makeup.jpg' 
     },
     { 
       title: 'Лазерная эпиляция', 
@@ -221,7 +221,7 @@ export default function Home() {
       price: 'от 1500 ₽', 
       duration: '15–40 мин', 
       icon: 'fa-bolt', 
-      img: 'https://images.pexels.com/photos/4884237/pexels-photo-4884237.jpeg?auto=compress&cs=tinysrgb&w=600' 
+      img: 'https://i.ibb.co/CWJmz7q/service-laser.jpg' 
     },
     { 
       title: 'Маникюр', 
@@ -229,7 +229,7 @@ export default function Home() {
       price: 'от 2000 ₽', 
       duration: '60 мин', 
       icon: 'fa-hand-peace', 
-      img: 'https://images.pexels.com/photos/4610499/pexels-photo-4610499.jpeg?auto=compress&cs=tinysrgb&w=600' 
+      img: 'https://i.ibb.co/x3Pjyy8/service-manicure.jpg' 
     },
     { 
       title: 'Педикюр', 
@@ -237,7 +237,7 @@ export default function Home() {
       price: 'от 2500 ₽', 
       duration: '70 мин', 
       icon: 'fa-shoe-prints', 
-      img: 'https://images.pexels.com/photos/29205760/pexels-photo-29205760.jpeg?auto=compress&cs=tinysrgb&w=600' 
+      img: 'https://i.ibb.co/Lp5nLwn/service-pedicure.jpg' 
     }
   ];
 
