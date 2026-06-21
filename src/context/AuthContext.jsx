@@ -13,6 +13,11 @@ export const AuthProvider = ({ children }) => {
   const [showVerify, setShowVerify] = useState(false);
   const [verifyEmail, setVerifyEmail] = useState('');
 
+  // ==========================================
+  // ✅ ДОБАВЛЕН СТЕЙТ ДЛЯ ГЛОБАЛЬНОЙ МОДАЛКИ ЗАПИСИ
+  // ==========================================
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+
   const API_URL = 'https://pure-backend-pz7z.onrender.com';
 
   // 1. Загрузка пользователя при обновлении страницы (АВТОМАТИЧЕСКИЙ ВХОД)
@@ -167,7 +172,9 @@ export const AuthProvider = ({ children }) => {
       verifyEmail,
       verify,
       resendCode,
-      setShowVerify
+      setShowVerify,
+      isBookingModalOpen,
+      setIsBookingModalOpen
     }}>
       {children}
     </AuthContext.Provider>

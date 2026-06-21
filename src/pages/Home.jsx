@@ -4,12 +4,11 @@ import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 
 export default function Home() {
-  const { user, addBooking, logout } = useAuth();
+  const { user, addBooking, logout, setIsBookingModalOpen } = useAuth();
   const [bookingData, setBookingData] = useState({ master: '', time: '', service: 'Косметология' });
   const [progress, setProgress] = useState(0);
   const [status, setStatus] = useState('');
   const [timeLeft, setTimeLeft] = useState({ days: 7, hours: 0, minutes: 0, seconds: 0 });
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState('');
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -121,23 +120,12 @@ export default function Home() {
       setTimeout(() => {
         setProgress(0);
         setStatus('');
-        setIsModalOpen(false);
+        setIsBookingModalOpen(false);
         setBookingData({ master: '', time: '', service: 'Косметология' });
       }, 1500);
     } catch (err) {
       setStatus('❌ Ошибка при записи');
     }
-  };
-
-  const openModal = (serviceName = '') => {
-    setSelectedService(serviceName);
-    setBookingData(prev => ({ ...prev, service: serviceName || 'Косметология' }));
-    setIsModalOpen(true);
-  };
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setStatus('');
-    setProgress(0);
   };
 
   const nextTestimonial = () => setCurrentTestimonial((currentTestimonial + 1) % reviews.length);
@@ -227,7 +215,7 @@ export default function Home() {
           <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', color: 'white', maxWidth: 800, padding: '0 20px' }}>
             <h1 style={{ fontSize: '64px', fontWeight: 600, marginBottom: 20, textShadow: '0 2px 10px rgba(0,0,0,0.2)' }}>Подчеркнём вашу<br />естественную красоту</h1>
             <p style={{ fontSize: '20px', marginBottom: 30, opacity: 0.9 }}>Премиальный салон с авторским подходом. Ощутите ритуал заботы о себе.</p>
-            <button className="btn-solid" onClick={() => openModal()}>Записаться</button>
+            <button className="btn-solid" onClick={() => setIsBookingModalOpen(true)}>Записаться</button>
           </div>
         </section>
 
@@ -249,7 +237,7 @@ export default function Home() {
             <h2 className="section-title fade-up" ref={addToRefs}>Ритуалы красоты</h2>
             <div className="cards-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px,1fr))', gap: 30 }}>
               {services.map((s, idx) => (
-                <div className="service-card fade-up" ref={addToRefs} key={idx} onClick={() => openModal(s.title)} style={{ cursor: 'pointer' }}>
+                <div className="service-card fade-up" ref={addToRefs} key={idx} onClick={() => setIsBookingModalOpen(true)} style={{ cursor: 'pointer' }}>
                   <div className="card-img" style={{ height: 220, backgroundImage: `url(${s.img})`, backgroundSize: 'cover', borderRadius: 28 }}></div>
                   <div className="card-content" style={{ padding: 20 }}>
                     <h3><i className={`fas ${s.icon}`} style={{ marginRight: 8, color: '#D4AF7A' }}></i> {s.title}</h3>
@@ -331,7 +319,7 @@ export default function Home() {
                 <div className="timer-separator">:</div>
                 <div className="timer-block"><div className="timer-number">{String(timeLeft.seconds).padStart(2,'0')}</div><div className="timer-label">секунд</div></div>
               </div>
-              <button className="btn-discount" onClick={() => openModal()}>Записаться сейчас <i className="fas fa-arrow-right"></i></button>
+              <button className="btn-discount" onClick={() => setIsBookingModalOpen(true)}>Записаться сейчас <i className="fas fa-arrow-right"></i></button>
             </div>
           </div>
         </section>
@@ -358,7 +346,7 @@ export default function Home() {
               <p><i className="fas fa-map-marker-alt"></i> Москва, Чистопрудный бульвар, 12</p>
               <p><i className="fas fa-phone-alt"></i> +7 (495) 555-33-22</p>
               <p><i className="far fa-envelope"></i> hello@pureaura.ru</p>
-              <button className="btn-gold" style={{ marginTop: 30 }} onClick={() => openModal()}>Записаться</button>
+              <button className="btn-gold" style={{ marginTop: 30 }} onClick={() => setIsBookingModalOpen(true)}>Записаться</button>
             </div>
             <div className="form-area" style={{ flex: 1 }}>
               <h3>Режим работы</h3>
@@ -377,56 +365,6 @@ export default function Home() {
         <a href="https://wa.me/74955553322" className="whatsapp-btn" target="_blank"><i className="fab fa-whatsapp"></i></a>
         <a href="https://t.me/pureaura_salon" className="telegram-btn" target="_blank"><i className="fab fa-telegram-plane"></i></a>
       </div>
-
-      {/* Модалка записи */}
-      {isModalOpen && createPortal(
-        <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <span className="close-modal" onClick={closeModal}>&times;</span>
-            <h3 style={{ fontSize: 32, marginBottom: 20 }}>Запись на услугу</h3>
-            {user ? (
-              <>
-                <p style={{ marginBottom: 20 }}>Вы записываетесь как <strong>{user.name}</strong></p>
-                <form onSubmit={handleBookingSubmit}>
-                  <select value={bookingData.master} onChange={e => setBookingData({...bookingData, master: e.target.value})} required style={{ width: '100%', padding: 12, marginBottom: 15, borderRadius: 40 }}>
-                    <option value="">Выберите мастера</option>
-                    {mastersList.map(m => <option key={m.name}>{m.name}</option>)}
-                  </select>
-                  <select value={bookingData.service} onChange={e => setBookingData({...bookingData, service: e.target.value})} required style={{ width: '100%', padding: 12, marginBottom: 15, borderRadius: 40 }}>
-                    {services.map(s => <option key={s.title}>{s.title}</option>)}
-                  </select>
-                  <select value={bookingData.time} onChange={e => setBookingData({...bookingData, time: e.target.value})} required style={{ width: '100%', padding: 12, marginBottom: 20, borderRadius: 40 }}>
-                    <option value="">Выберите время</option>
-                    <option>10:00</option><option>12:00</option><option>14:00</option><option>16:00</option><option>18:00</option>
-                  </select>
-                  <button type="submit" className="btn-solid" style={{ width: '100%' }}>Записаться</button>
-                </form>
-                {progress > 0 && <div className="progress-bar" style={{ marginTop: 15 }}><div className="progress-fill" style={{ width: `${progress}%`, height: 6, background: '#D4AF7A', borderRadius: 6 }}></div></div>}
-                {status && <p style={{ marginTop: 15, color: '#D4AF7A' }}>{status}</p>}
-              </>
-            ) : (
-              <div style={{ textAlign: 'center' }}>
-                <p style={{ marginBottom: '24px' }}>Для записи необходимо войти в аккаунт.</p>
-                
-                {/* Контейнер для кнопок */}
-                <div style={{ 
-                  display: 'flex', 
-                  flexDirection: 'column', 
-                  gap: '12px', 
-                  alignItems: 'center' 
-                }}>
-                  <Link to="/login" className="btn-solid" style={{ width: '100%', maxWidth: '280px' }}>Войти</Link>
-                  
-                  <div style={{ fontSize: '14px', color: '#7A6E62' }}>или</div>
-                  
-                  <Link to="/register" className="btn-gold" style={{ width: '100%', maxWidth: '280px' }}>Зарегистрироваться</Link>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>,
-        document.body
-      )}
 
       {/* Модалка отзыва */}
       {isReviewModalOpen && createPortal(
