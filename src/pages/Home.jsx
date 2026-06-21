@@ -135,6 +135,14 @@ export default function Home() {
   const nextTestimonial = () => setCurrentTestimonial((currentTestimonial + 1) % reviews.length);
   const prevTestimonial = () => setCurrentTestimonial((currentTestimonial - 1 + reviews.length) % reviews.length);
 
+  // ================================================================
+  // 📌 НОВАЯ ФУНКЦИЯ: ОТКРЫТИЕ МОДАЛКИ ИЗ КАРТОЧКИ С ВЫБОРОМ УСЛУГИ
+  // ================================================================
+  const openBookingModal = (serviceName) => {
+    setBookingData({ master: '', time: '', service: serviceName || 'Косметология' });
+    setIsBookingModalOpen(true);
+  };
+
   // Список мастеров (6)
   const mastersList = [
     { name: 'Анна Вольская', role: 'Косметолог-эстетист', exp: '12 лет опыта', img: 'https://randomuser.me/api/portraits/women/68.jpg', special: 'Лицо, инъекции' },
@@ -241,7 +249,7 @@ export default function Home() {
             <h2 className="section-title fade-up" ref={addToRefs}>Ритуалы красоты</h2>
             <div className="cards-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px,1fr))', gap: 30 }}>
               {services.map((s, idx) => (
-                <div className="service-card fade-up" ref={addToRefs} key={idx} onClick={() => setIsBookingModalOpen(true)} style={{ cursor: 'pointer' }}>
+                <div className="service-card fade-up" ref={addToRefs} key={idx} onClick={() => openBookingModal(s.title)} style={{ cursor: 'pointer' }}>
                   <div className="card-img" style={{ height: 220, backgroundImage: `url(${s.img})`, backgroundSize: 'cover', borderRadius: 28 }}></div>
                   <div className="card-content" style={{ padding: 20 }}>
                     <h3><i className={`fas ${s.icon}`} style={{ marginRight: 8, color: '#D4AF7A' }}></i> {s.title}</h3>
