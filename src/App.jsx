@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
+import AdminPanel from './pages/AdminPanel';
 import VerifyModal from './pages/VerifyModal';
 import { createPortal } from 'react-dom'; 
 import { useState, useEffect } from 'react';
@@ -41,7 +42,7 @@ function AppInner() {
     { name: 'Анна Вольская', role: 'Косметолог-эстетист', exp: '12 лет опыта', img: 'https://randomuser.me/api/portraits/women/68.jpg', services: ['Косметология', 'Лазерная эпиляция'] },
     { name: 'Екатерина Ли', role: 'Топ-стилист', exp: '9 лет, эксперт', img: 'https://randomuser.me/api/portraits/women/44.jpg', services: ['Волосы'] },
     { name: 'Мария Теплова', role: 'Визажист', exp: 'Международные сертификаты', img: 'https://randomuser.me/api/portraits/women/90.jpg', services: ['Makeup'] },
-    { name: 'Лидия Кравцова', role: 'Мастер маникюра', exp: '7 лет', img: 'https://randomuser.me/api/portraits/men/32.jpg', services: ['Маникюр', 'Педикюр'] },
+    { name: 'Дмитрий Кравцов', role: 'Мастер маникюра', exp: '7 лет', img: 'https://randomuser.me/api/portraits/men/32.jpg', services: ['Маникюр', 'Педикюр'] },
     { name: 'Ольга Смирнова', role: 'Специалист по лазерной эпиляции', exp: '5 лет', img: 'https://randomuser.me/api/portraits/women/33.jpg', services: ['Лазерная эпиляция'] },
     { name: 'Ирина Мельник', role: 'Косметолог-эстетист', exp: '10 лет', img: 'https://randomuser.me/api/portraits/women/45.jpg', services: ['Косметология', 'Маникюр', 'Педикюр'] }
   ];
@@ -108,20 +109,19 @@ function AppInner() {
     m.services.includes(bookingData.service)
   );
 
-  // ✅ ИСПРАВЛЕННЫЙ useEffect: сбрасывает мастера, но НЕ ТРОГАЕТ услугу
+  // Если мастер выбран, но не подходит под новую услугу — сбрасываем его
   useEffect(() => {
     if (bookingData.master && !filteredMasters.some(m => m.name === bookingData.master)) {
       setBookingData(prev => ({ ...prev, master: '' }));
     }
-    // МЫ НЕ ТРОГАЕМ bookingData.service ЗДЕСЬ!
-  }, [bookingData.service, bookingData.master, filteredMasters]);
+  }, [bookingData.service]);
 
-  // Если при открытии модалки выбран только один мастер, подставляем его автоматически
+  // Если при открытии модалки выбрана Косметология, а у нас в ней нет мастеров (если пусто), подставляем первого из списка
   useEffect(() => {
-    if (isBookingModalOpen && filteredMasters.length === 1 && !bookingData.master) {
+    if (isBookingModalOpen && filteredMasters.length === 1) {
       setBookingData(prev => ({ ...prev, master: filteredMasters[0].name }));
     }
-  }, [isBookingModalOpen, filteredMasters, bookingData.master]);
+  }, [isBookingModalOpen, filteredMasters]);
 
   return (
     <>
@@ -278,6 +278,7 @@ function AppInner() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/admin" element={<AdminPanel />} />
       </Routes>
     </>
   );

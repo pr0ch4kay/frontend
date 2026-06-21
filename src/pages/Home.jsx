@@ -275,6 +275,12 @@ export default function Home() {
             {/* Сразу после "Отзывы" идёт проверка пользователя */}
             {user ? (
               <>
+                {/* Если админ — показываем ссылку на админку */}
+                {user.role === 'admin' && (
+                  <Link to="/admin" style={{ fontWeight: 600, color: '#D4AF7A', textDecoration: 'none', marginRight: '6px' }}>
+                    Админ
+                  </Link>
+                )}
                 {/* Золотое имя пользователя */}
                 <Link to="/profile" style={{ fontWeight: 600, color: '#D4AF7A', textDecoration: 'none', marginRight: '6px' }}>
                   {user.name}
