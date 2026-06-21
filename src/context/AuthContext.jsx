@@ -62,6 +62,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   // === РЕГИСТРАЦИЯ ===
+    // === РЕГИСТРАЦИЯ ===
   const register = async (email, password, name) => {
     const res = await fetch(`${API_URL}/api/auth/register`, {
       method: 'POST',
@@ -73,8 +74,19 @@ export const AuthProvider = ({ children }) => {
     if (!res.ok) {
       throw new Error(data.msg || 'Ошибка регистрации');
     }
+    
     setVerifyEmail(email);
     setShowVerify(true);
+    
+    // 🎁 ЕСЛИ БЭК ВЕРНУЛ КОД В ОТВЕТЕ — ПОКАЖЕМ ЕГО В МОДАЛКЕ
+    if (data.testCode) {
+      // Можно передать код в модалку, если нужно.
+      // Я оставлю его в консоли для теста, но ты можешь сделать отдельное поле.
+      console.log("💡 КОД ДЛЯ ВХОДА (не отправлен на почту):", data.testCode);
+      
+      // АВТОМАТИЧЕСКИ ВСТАВЛЯЕМ КОД В МОДАЛКУ (если добавишь стейт для кода)
+      // setCurrentCode(data.testCode); 
+    }
   };
 
   // === ПОДТВЕРЖДЕНИЕ КОДА ===
