@@ -183,24 +183,35 @@ export default function Home() {
         <div className="container header-inner">
           <Link to="/" className="logo">Pure<span>Aura</span></Link>
           <div className="nav-links">
-            {/* Общие ссылки для всех */}
             <a href="#services">Услуги</a>
             <a href="#masters">Мастера</a>
             <a href="#gallery">Работы</a>
             <a href="#reviews">Отзывы</a>
             
-            {/* Блок авторизации — он всегда будет сразу после "Отзывы" */}
+            {/* Сразу после "Отзывы" идёт проверка пользователя */}
             {user ? (
               <>
-                {/* Сначала имя пользователя (ссылка на профиль) */}
-                <Link to="/profile" style={{ fontWeight: 600, color: '#D4AF7A', textDecoration: 'none' }}>
+                {/* Золотое имя пользователя */}
+                <Link to="/profile" style={{ fontWeight: 600, color: '#D4AF7A', textDecoration: 'none', marginRight: '6px' }}>
                   {user.name}
                 </Link>
-                {/* Потом кнопка выхода */}
-                <button onClick={logout} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', marginLeft: '4px' }}>Выйти</button>
+                {/* Кнопка Выйти */}
+                <button 
+                  onClick={logout} 
+                  style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    cursor: 'pointer', 
+                    fontFamily: 'inherit',
+                    fontSize: '16px',
+                    color: '#2C2826'
+                  }}
+                >
+                  Выйти
+                </button>
               </>
             ) : (
-              <Link to="/login">Войти</Link>
+              <Link to="/login" style={{ fontSize: '16px', color: '#2C2826', textDecoration: 'none' }}>Войти</Link>
             )}
           </div>
         </div>
