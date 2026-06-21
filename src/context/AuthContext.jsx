@@ -12,9 +12,9 @@ export const AuthProvider = ({ children }) => {
   // Стейты для модалки верификации
   const [showVerify, setShowVerify] = useState(false);
   const [verifyEmail, setVerifyEmail] = useState('');
-  const [currentCode, setCurrentCode] = useState(''); // <-- АВТОМАТИЧЕСКИЙ КОД
+  const [currentCode, setCurrentCode] = useState(''); 
 
-  // Стейты для модалки записи (ВЕРНУЛ ИЗ СТАРОГО КОДА)
+  // Стейты для модалки записи
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   const API_URL = 'https://pure-backend-pz7z.onrender.com';
@@ -36,6 +36,7 @@ export const AuthProvider = ({ children }) => {
         .then(data => {
           if (data && data.user) {
             setUser(data.user);
+            // Сразу загружаем список записей при автологине
             fetchBookings(token);
           }
           setLoading(false);
@@ -49,6 +50,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
+  // === ФУНКЦИЯ ЗАГРУЗКИ ЗАПИСЕЙ С БЭКА ===
   const fetchBookings = async (token) => {
     const res = await fetch(`${API_URL}/api/bookings`, {
       headers: { 'Authorization': `Bearer ${token}` }
@@ -73,7 +75,6 @@ export const AuthProvider = ({ children }) => {
     }
     
     setVerifyEmail(email);
-    // 💥 Забираем код из ответа бэка и кладём в стейт
     setCurrentCode(data.testCode || '');
     setShowVerify(true);
   };
@@ -96,7 +97,7 @@ export const AuthProvider = ({ children }) => {
     await fetchBookings(data.token);
     setShowVerify(false);
     setVerifyEmail('');
-    setCurrentCode(''); // Очищаем код после входа
+    setCurrentCode('');
   };
 
   // === ПОВТОРНАЯ ОТПРАВКА ===
@@ -130,7 +131,7 @@ export const AuthProvider = ({ children }) => {
     setBookings([]);
   };
 
-  // === БРОНИРОВАНИЕ ===
+  // === БРОНИРОВАНИЕ (с немедленной перезагрузкой списка) ===
   const addBooking = async (bookingData) => {
     const token = localStorage.getItem('token');
     const res = await fetch(`${API_URL}/api/bookings`, {
@@ -142,8 +143,8 @@ export const AuthProvider = ({ children }) => {
       body: JSON.stringify(bookingData)
     });
     if (res.ok) {
-      const newBooking = await res.json();
-      setBookings(prev => [...prev, newBooking]);
+      // После успешного создания записи — сразу запрашиваем свежий список!
+      await fetchBookings(token);
     } else {
       throw new Error('Не удалось создать запись');
     }
@@ -156,7 +157,8 @@ export const AuthProvider = ({ children }) => {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     if (res.ok) {
-      setBookings(prev => prev.filter(b => b.id !== id));
+      // После удаления тоже перезапрашиваем список
+      await fetchBookings(token);
     }
   };
 
@@ -175,9 +177,7 @@ export const AuthProvider = ({ children }) => {
       verify,
       resendCode,
       setShowVerify,
-      currentCode, // <--- КОД ДЛЯ АВТО-ВЕРИФИКАЦИИ
-      
-      // ВОЗВРАЩАЕМ МОДАЛКУ ЗАПИСИ
+      currentCode, 
       isBookingModalOpen,
       setIsBookingModalOpen
     }}>
