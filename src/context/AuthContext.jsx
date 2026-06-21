@@ -12,26 +12,21 @@ export const AuthProvider = ({ children }) => {
   // Стейты для модалки верификации
   const [showVerify, setShowVerify] = useState(false);
   const [verifyEmail, setVerifyEmail] = useState('');
-
-  // ==========================================
-  // ✅ ДОБАВЛЕН СТЕЙТ ДЛЯ ГЛОБАЛЬНОЙ МОДАЛКИ ЗАПИСИ
-  // ==========================================
-  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [currentCode, setCurrentCode] = useState(''); // <-- АВТОМАТИЧЕСКИЙ КОД
 
   const API_URL = 'https://pure-backend-pz7z.onrender.com';
 
-  // 1. Загрузка пользователя при обновлении страницы (АВТОМАТИЧЕСКИЙ ВХОД)
+  // 1. Загрузка пользователя при обновлении страницы
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      // Пытаемся получить данные пользователя по токену
       fetch(`${API_URL}/api/auth/me`, {
         headers: { 'Authorization': `Bearer ${token}` }
       })
         .then(res => {
           if (res.ok) return res.json();
           else {
-            localStorage.removeItem('token'); // если токен битый - удаляем
+            localStorage.removeItem('token');
             return null;
           }
         })
@@ -62,7 +57,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   // === РЕГИСТРАЦИЯ ===
-    // === РЕГИСТРАЦИЯ ===
   const register = async (email, password, name) => {
     const res = await fetch(`${API_URL}/api/auth/register`, {
       method: 'POST',
@@ -76,17 +70,9 @@ export const AuthProvider = ({ children }) => {
     }
     
     setVerifyEmail(email);
+    // 💥 ВАЖНО: Забираем код из ответа бэка и кладём в стейт
+    setCurrentCode(data.testCode || '');
     setShowVerify(true);
-    
-    // 🎁 ЕСЛИ БЭК ВЕРНУЛ КОД В ОТВЕТЕ — ПОКАЖЕМ ЕГО В МОДАЛКЕ
-    if (data.testCode) {
-      // Можно передать код в модалку, если нужно.
-      // Я оставлю его в консоли для теста, но ты можешь сделать отдельное поле.
-      console.log("💡 КОД ДЛЯ ВХОДА (не отправлен на почту):", data.testCode);
-      
-      // АВТОМАТИЧЕСКИ ВСТАВЛЯЕМ КОД В МОДАЛКУ (если добавишь стейт для кода)
-      // setCurrentCode(data.testCode); 
-    }
   };
 
   // === ПОДТВЕРЖДЕНИЕ КОДА ===
@@ -107,6 +93,7 @@ export const AuthProvider = ({ children }) => {
     await fetchBookings(data.token);
     setShowVerify(false);
     setVerifyEmail('');
+    setCurrentCode(''); // Очищаем код после входа
   };
 
   // === ПОВТОРНАЯ ОТПРАВКА ===
@@ -185,8 +172,9 @@ export const AuthProvider = ({ children }) => {
       verify,
       resendCode,
       setShowVerify,
-      isBookingModalOpen,
-      setIsBookingModalOpen
+      currentCode, // <--- ПЕРЕДАЁМ КОД В МОДАЛКУ
+      isBookingModalOpen: false, // Заглушка, если не используется
+      setIsBookingModalOpen: () => {}
     }}>
       {children}
     </AuthContext.Provider>

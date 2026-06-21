@@ -1,10 +1,20 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 
 export default function VerifyModal({ isOpen, email, onClose, onVerify, onResend }) {
   const [code, setCode] = useState('');
   const [loading, setLoading] = useState(false);
+  
+  // Забираем код из контекста
+  const { currentCode } = useAuth();
 
-  // Если модалка закрыта — ничего не показываем
+  // АВТОМАТИЧЕСКИ ВСТАВЛЯЕМ КОД, КАК ТОЛЬКО ОТКРЫВАЕТСЯ МОДАЛКА
+  useEffect(() => {
+    if (isOpen && currentCode) {
+      setCode(currentCode);
+    }
+  }, [isOpen, currentCode]);
+
   if (!isOpen) return null;
 
   const handleVerify = async (e) => {
@@ -19,17 +29,13 @@ export default function VerifyModal({ isOpen, email, onClose, onVerify, onResend
     }
   };
 
-  // Функция для тестовой вставки кода (если бэк вернул его в data)
-  // Чтобы она работала, в AuthContext нужно добавить передачу кода. 
-  // Но мы оставим это для ручного ввода, а код будет подсвечен в инструкции.
-
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <span className="close-modal" onClick={onClose}>&times;</span>
         <h3 style={{ fontSize: 28, marginBottom: 10 }}>Подтверждение почты</h3>
         <p style={{ color: '#7A6E62', marginBottom: 20 }}>
-          Мы отправили код на <strong>{email}</strong>.
+          Код отправлен на <strong>{email}</strong>.
         </p>
         
         <form onSubmit={handleVerify}>
@@ -53,13 +59,6 @@ export default function VerifyModal({ isOpen, email, onClose, onVerify, onResend
           >
             Отправить код повторно
           </button>
-        </div>
-        
-        {/* Техническая подсказка для тебя (на время разработки) */}
-        <div style={{ marginTop: 15, padding: 10, background: '#f5f5f5', borderRadius: 10, fontSize: 13, color: '#555' }}>
-          <p style={{ margin: 0 }}>
-            💡 <strong>Для отладки:</strong> Открой консоль браузера (F12 → Console), там будет выведен код.
-          </p>
         </div>
       </div>
     </div>
