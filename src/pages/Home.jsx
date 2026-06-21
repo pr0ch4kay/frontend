@@ -370,7 +370,7 @@ export default function Home() {
       </main>
 
       <footer style={{ background: '#1C1917', color: '#CBC2B9', padding: 48, textAlign: 'center' }}>
-        <div className="container">© 2025 Pure Aura — премиальный beauty-салон.</div>
+        <div className="container">© 2026 Pure Aura — премиальный beauty-салон.</div>
       </footer>
 
       <div className="fixed-buttons">
