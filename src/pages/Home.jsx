@@ -21,12 +21,6 @@ export default function Home() {
   // Стейт для красивого выпадающего списка мастеров в отзывах
   const [isReviewMasterOpen, setIsReviewMasterOpen] = useState(false);
 
-  // ✅ ЭТОТ КОД ЗАСТАВЛЯЕТ МЕНЮ ПЕРЕРИСОВЫВАТЬСЯ ПРИ ВХОДЕ
-  const [isLoggedIn, setIsLoggedIn] = useState(!!user);
-  useEffect(() => {
-    setIsLoggedIn(!!user);
-  }, [user]);
-
   // Загрузка отзывов с сервера
   useEffect(() => {
     fetch('https://pure-backend-pz7z.onrender.com/api/reviews')
@@ -278,8 +272,8 @@ export default function Home() {
             <a href="#gallery">Работы</a>
             <a href="#reviews">Отзывы</a>
             
-            {/* Сразу после "Отзывы" идёт проверка пользователя */}
-            {isLoggedIn && user ? (
+            {/* Прямая проверка user. Без лишних стейтов! */}
+            {user ? (
               <>
                 {/* Если админ — показываем ссылку на админку */}
                 {user.role === 'admin' && (
