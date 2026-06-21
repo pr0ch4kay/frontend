@@ -14,6 +14,9 @@ export const AuthProvider = ({ children }) => {
   const [verifyEmail, setVerifyEmail] = useState('');
   const [currentCode, setCurrentCode] = useState(''); // <-- АВТОМАТИЧЕСКИЙ КОД
 
+  // Стейты для модалки записи (ВЕРНУЛ ИЗ СТАРОГО КОДА)
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+
   const API_URL = 'https://pure-backend-pz7z.onrender.com';
 
   // 1. Загрузка пользователя при обновлении страницы
@@ -70,7 +73,7 @@ export const AuthProvider = ({ children }) => {
     }
     
     setVerifyEmail(email);
-    // 💥 ВАЖНО: Забираем код из ответа бэка и кладём в стейт
+    // 💥 Забираем код из ответа бэка и кладём в стейт
     setCurrentCode(data.testCode || '');
     setShowVerify(true);
   };
@@ -172,9 +175,11 @@ export const AuthProvider = ({ children }) => {
       verify,
       resendCode,
       setShowVerify,
-      currentCode, // <--- ПЕРЕДАЁМ КОД В МОДАЛКУ
-      isBookingModalOpen: false, // Заглушка, если не используется
-      setIsBookingModalOpen: () => {}
+      currentCode, // <--- КОД ДЛЯ АВТО-ВЕРИФИКАЦИИ
+      
+      // ВОЗВРАЩАЕМ МОДАЛКУ ЗАПИСИ
+      isBookingModalOpen,
+      setIsBookingModalOpen
     }}>
       {children}
     </AuthContext.Provider>
