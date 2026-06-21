@@ -183,16 +183,21 @@ export default function Home() {
         <div className="container header-inner">
           <Link to="/" className="logo">Pure<span>Aura</span></Link>
           <div className="nav-links">
+            {/* Общие ссылки для всех */}
             <a href="#services">Услуги</a>
             <a href="#masters">Мастера</a>
             <a href="#gallery">Работы</a>
             <a href="#reviews">Отзывы</a>
+            
+            {/* Блок авторизации — он всегда будет сразу после "Отзывы" */}
             {user ? (
               <>
+                {/* Сначала имя пользователя (ссылка на профиль) */}
                 <Link to="/profile" style={{ fontWeight: 600, color: '#D4AF7A', textDecoration: 'none' }}>
                   {user.name}
                 </Link>
-                <button onClick={logout} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', marginLeft: '12px' }}>Выйти</button>
+                {/* Потом кнопка выхода */}
+                <button onClick={logout} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', marginLeft: '4px' }}>Выйти</button>
               </>
             ) : (
               <Link to="/login">Войти</Link>
