@@ -108,19 +108,20 @@ function AppInner() {
     m.services.includes(bookingData.service)
   );
 
-  // Если мастер выбран, но не подходит под новую услугу — сбрасываем его
+  // ✅ ИСПРАВЛЕННЫЙ useEffect: сбрасывает мастера, но НЕ ТРОГАЕТ услугу
   useEffect(() => {
     if (bookingData.master && !filteredMasters.some(m => m.name === bookingData.master)) {
       setBookingData(prev => ({ ...prev, master: '' }));
     }
-  }, [bookingData.service]);
+    // МЫ НЕ ТРОГАЕМ bookingData.service ЗДЕСЬ!
+  }, [bookingData.service, bookingData.master, filteredMasters]);
 
-  // Если при открытии модалки выбрана Косметология, а у нас в ней нет мастеров (если пусто), подставляем первого из списка
+  // Если при открытии модалки выбран только один мастер, подставляем его автоматически
   useEffect(() => {
-    if (isBookingModalOpen && filteredMasters.length === 1) {
+    if (isBookingModalOpen && filteredMasters.length === 1 && !bookingData.master) {
       setBookingData(prev => ({ ...prev, master: filteredMasters[0].name }));
     }
-  }, [isBookingModalOpen, filteredMasters]);
+  }, [isBookingModalOpen, filteredMasters, bookingData.master]);
 
   return (
     <>

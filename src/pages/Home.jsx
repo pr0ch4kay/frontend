@@ -136,21 +136,21 @@ export default function Home() {
   const prevTestimonial = () => setCurrentTestimonial((currentTestimonial - 1 + reviews.length) % reviews.length);
 
   // ================================================================
-  // 📌 НОВАЯ ФУНКЦИЯ: ОТКРЫТИЕ МОДАЛКИ ИЗ КАРТОЧКИ С ВЫБОРОМ УСЛУГИ
+  // 📌 ФУНКЦИЯ: ОТКРЫТИЕ МОДАЛКИ ИЗ КАРТОЧКИ С ПЕРЕДАЧЕЙ УСЛУГИ
   // ================================================================
   const openBookingModal = (serviceName) => {
     setBookingData({ master: '', time: '', service: serviceName || 'Косметология' });
     setIsBookingModalOpen(true);
   };
 
-          // Список мастеров (6) - фото загружены на надежный хостинг
+  // Список мастеров (6) - с красивыми фото и привязкой к услугам
   const mastersList = [
     { 
       name: 'Анна Вольская', 
       role: 'Косметолог-эстетист', 
       exp: '12 лет опыта', 
       img: 'https://i.pinimg.com/736x/5c/f3/61/5cf361909bae28eeba4ed626bae2849c.jpg', 
-      special: 'Лицо, инъекции' ,
+      special: 'Лицо, инъекции',
       services: ['Косметология', 'Лазерная эпиляция'] 
     },
     { 
@@ -158,7 +158,7 @@ export default function Home() {
       role: 'Топ-стилист', 
       exp: '9 лет, эксперт', 
       img: 'https://i.pinimg.com/736x/0d/e7/9c/0de79c115b85c172f7f1c90d4705eb0b.jpg', 
-      special: 'Окрашивание, стрижки' ,
+      special: 'Окрашивание, стрижки',
       services: ['Волосы', 'Makeup'] 
     },
     { 
@@ -166,7 +166,7 @@ export default function Home() {
       role: 'Визажист', 
       exp: 'Международные сертификаты', 
       img: 'https://i.pinimg.com/736x/0e/09/34/0e09344590e4e662c0e77c1573910f93.jpg', 
-      special: 'Свадебный макияж' ,
+      special: 'Свадебный макияж',
       services: ['Makeup', 'Косметология'] 
     },
     { 
@@ -174,7 +174,7 @@ export default function Home() {
       role: 'Мастер маникюра', 
       exp: '7 лет', 
       img: 'https://i.pinimg.com/736x/83/69/c4/8369c45a0611c256f189eceb79b85409.jpg', 
-      special: 'Дизайн, укрепление' ,
+      special: 'Дизайн, укрепление',
       services: ['Маникюр', 'Педикюр'] 
     },
     { 
@@ -182,7 +182,7 @@ export default function Home() {
       role: 'Специалист по лазерной эпиляции', 
       exp: '5 лет', 
       img: 'https://i.pinimg.com/736x/a5/2b/fb/a52bfbdc6d23f15edc9794ef47d556b7.jpg', 
-      special: 'Все зоны' ,
+      special: 'Все зоны',
       services: ['Лазерная эпиляция', 'Косметология'] 
     },
     { 
@@ -190,12 +190,12 @@ export default function Home() {
       role: 'Косметолог-эстетист', 
       exp: '10 лет', 
       img: 'https://i.pinimg.com/736x/2a/9e/fd/2a9efd69b6f51b2c0c6ebeb0d520eefe.jpg', 
-      special: 'Уходовые процедуры' ,
+      special: 'Уходовые процедуры',
       services: ['Косметология', 'Маникюр', 'Педикюр'] 
     }
   ];
 
-        // Услуги (6) - фото загружены на надежный хостинг
+  // Услуги (6) - с красивыми фото
   const services = [
     { 
       title: 'Косметология', 
