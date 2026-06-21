@@ -17,6 +17,9 @@ export default function Home() {
   const [reviewRating, setReviewRating] = useState(5);
   const [reviewMaster, setReviewMaster] = useState('');
   const fadeElements = useRef([]);
+  
+  // Стейт для красивого выпадающего списка мастеров в отзывах
+  const [isReviewMasterOpen, setIsReviewMasterOpen] = useState(false);
 
   // Загрузка отзывов с сервера
   useEffect(() => {
@@ -45,7 +48,7 @@ export default function Home() {
           text: reviewText,
           stars: reviewRating,
           master: reviewMaster,
-          name: user.name // <--- ДОБАВИЛ ЭТУ СТРОКУ!
+          name: user.name
         })
       });
       if (!res.ok) throw new Error('Ошибка');
@@ -381,10 +384,41 @@ export default function Home() {
                   ))}
                 </div>
                 <textarea rows="4" placeholder="Поделитесь впечатлениями..." value={reviewText} onChange={e => setReviewText(e.target.value)} required style={{ width: '100%', padding: 12, borderRadius: 24, border: '1px solid #EADBCE', marginBottom: 15 }}></textarea>
-                <select value={reviewMaster} onChange={e => setReviewMaster(e.target.value)} style={{ width: '100%', padding: 12, borderRadius: 40, marginBottom: 20 }}>
-                  <option value="">К мастеру (необязательно)</option>
-                  {mastersList.map(m => <option key={m.name}>{m.name}</option>)}
-                </select>
+
+                {/* ===== КРАСИВЫЙ КАСТОМНЫЙ ВЫБОР МАСТЕРА ===== */}
+                <div className="custom-select-wrapper">
+                  <div 
+                    className={`custom-select-trigger ${isReviewMasterOpen ? 'open' : ''}`}
+                    onClick={() => setIsReviewMasterOpen(!isReviewMasterOpen)}
+                  >
+                    {reviewMaster || "К мастеру (необязательно)"}
+                    <span className="arrow">▼</span>
+                  </div>
+                  <div className={`custom-options ${isReviewMasterOpen ? 'open' : ''}`}>
+                    <div 
+                      className="custom-option"
+                      onClick={() => {
+                        setReviewMaster('');
+                        setIsReviewMasterOpen(false);
+                      }}
+                    >
+                      К мастеру (необязательно)
+                    </div>
+                    {mastersList.map(m => (
+                      <div 
+                        key={m.name}
+                        className={`custom-option ${reviewMaster === m.name ? 'selected' : ''}`}
+                        onClick={() => {
+                          setReviewMaster(m.name);
+                          setIsReviewMasterOpen(false);
+                        }}
+                      >
+                        {m.name}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
                 <button type="submit" className="btn-solid" style={{ width: '100%' }}>Отправить отзыв</button>
               </form>
             ) : (

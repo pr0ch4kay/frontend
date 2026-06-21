@@ -6,7 +6,7 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import VerifyModal from './pages/VerifyModal';
 import { createPortal } from 'react-dom'; 
-import { useState } from 'react'; // <--- ЭТО ВАЖНО!
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './App.css';
 
@@ -24,12 +24,17 @@ function AppInner() {
     logout 
   } = useAuth();
 
-  // Стейты для формы записи (перенесены из Home.jsx)
+  // Стейты для формы записи
   const [bookingData, setBookingData] = useState({ master: '', time: '', service: 'Косметология' });
   const [progress, setProgress] = useState(0);
   const [status, setStatus] = useState('');
+  
+  // Стейты для открытия кастомных дропдаунов
+  const [isMasterOpen, setIsMasterOpen] = useState(false);
+  const [isServiceOpen, setIsServiceOpen] = useState(false);
+  const [isTimeOpen, setIsTimeOpen] = useState(false);
 
-  // Список мастеров (чтобы модалка могла их использовать)
+  // Список мастеров
   const mastersList = [
     { name: 'Анна Вольская', role: 'Косметолог-эстетист', exp: '12 лет опыта', img: 'https://randomuser.me/api/portraits/women/68.jpg', special: 'Лицо, инъекции' },
     { name: 'Екатерина Ли', role: 'Топ-стилист', exp: '9 лет, эксперт', img: 'https://randomuser.me/api/portraits/women/44.jpg', special: 'Окрашивание, стрижки' },
@@ -39,7 +44,7 @@ function AppInner() {
     { name: 'Ирина Мельник', role: 'Косметолог-эстетист', exp: '10 лет', img: 'https://randomuser.me/api/portraits/women/45.jpg', special: 'Уходовые процедуры' }
   ];
 
-  // Список услуг (чтобы модалка могла их использовать)
+  // Список услуг
   const services = [
     { title: 'Косметология' },
     { title: 'Волосы' },
@@ -49,7 +54,10 @@ function AppInner() {
     { title: 'Педикюр' }
   ];
 
-  // Обработчик записи (перенесён из Home.jsx)
+  // Список времени
+  const timeSlots = ['10:00', '12:00', '14:00', '16:00', '18:00'];
+
+  // Обработчик записи
   const handleBookingSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
@@ -100,17 +108,109 @@ function AppInner() {
               <>
                 <p style={{ marginBottom: 20 }}>Вы записываетесь как <strong>{user.name}</strong></p>
                 <form onSubmit={handleBookingSubmit}>
-                  <select value={bookingData.master} onChange={e => setBookingData({...bookingData, master: e.target.value})} required style={{ width: '100%', padding: 12, marginBottom: 15, borderRadius: 40 }}>
-                    <option value="">Выберите мастера</option>
-                    {mastersList.map(m => <option key={m.name}>{m.name}</option>)}
-                  </select>
-                  <select value={bookingData.service} onChange={e => setBookingData({...bookingData, service: e.target.value})} required style={{ width: '100%', padding: 12, marginBottom: 15, borderRadius: 40 }}>
-                    {services.map(s => <option key={s.title}>{s.title}</option>)}
-                  </select>
-                  <select value={bookingData.time} onChange={e => setBookingData({...bookingData, time: e.target.value})} required style={{ width: '100%', padding: 12, marginBottom: 20, borderRadius: 40 }}>
-                    <option value="">Выберите время</option>
-                    <option>10:00</option><option>12:00</option><option>14:00</option><option>16:00</option><option>18:00</option>
-                  </select>
+                  
+                  {/* ===== 1. КРАСИВЫЙ ВЫБОР МАСТЕРА ===== */}
+                  <div className="custom-select-wrapper">
+                    <div 
+                      className={`custom-select-trigger ${isMasterOpen ? 'open' : ''}`}
+                      onClick={() => setIsMasterOpen(!isMasterOpen)}
+                    >
+                      {bookingData.master || "Выберите мастера"}
+                      <span className="arrow">▼</span>
+                    </div>
+                    <div className={`custom-options ${isMasterOpen ? 'open' : ''}`}>
+                      <div 
+                        className="custom-option"
+                        onClick={() => {
+                          setBookingData({...bookingData, master: ''});
+                          setIsMasterOpen(false);
+                        }}
+                      >
+                        Выберите мастера
+                      </div>
+                      {mastersList.map(m => (
+                        <div 
+                          key={m.name}
+                          className={`custom-option ${bookingData.master === m.name ? 'selected' : ''}`}
+                          onClick={() => {
+                            setBookingData({...bookingData, master: m.name});
+                            setIsMasterOpen(false);
+                          }}
+                        >
+                          {m.name}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* ===== 2. КРАСИВЫЙ ВЫБОР УСЛУГИ ===== */}
+                  <div className="custom-select-wrapper">
+                    <div 
+                      className={`custom-select-trigger ${isServiceOpen ? 'open' : ''}`}
+                      onClick={() => setIsServiceOpen(!isServiceOpen)}
+                    >
+                      {bookingData.service || "Выберите услугу"}
+                      <span className="arrow">▼</span>
+                    </div>
+                    <div className={`custom-options ${isServiceOpen ? 'open' : ''}`}>
+                      <div 
+                        className="custom-option"
+                        onClick={() => {
+                          setBookingData({...bookingData, service: 'Косметология'});
+                          setIsServiceOpen(false);
+                        }}
+                      >
+                        Выберите услугу
+                      </div>
+                      {services.map(s => (
+                        <div 
+                          key={s.title}
+                          className={`custom-option ${bookingData.service === s.title ? 'selected' : ''}`}
+                          onClick={() => {
+                            setBookingData({...bookingData, service: s.title});
+                            setIsServiceOpen(false);
+                          }}
+                        >
+                          {s.title}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* ===== 3. КРАСИВЫЙ ВЫБОР ВРЕМЕНИ ===== */}
+                  <div className="custom-select-wrapper">
+                    <div 
+                      className={`custom-select-trigger ${isTimeOpen ? 'open' : ''}`}
+                      onClick={() => setIsTimeOpen(!isTimeOpen)}
+                    >
+                      {bookingData.time || "Выберите время"}
+                      <span className="arrow">▼</span>
+                    </div>
+                    <div className={`custom-options ${isTimeOpen ? 'open' : ''}`}>
+                      <div 
+                        className="custom-option"
+                        onClick={() => {
+                          setBookingData({...bookingData, time: ''});
+                          setIsTimeOpen(false);
+                        }}
+                      >
+                        Выберите время
+                      </div>
+                      {timeSlots.map(t => (
+                        <div 
+                          key={t}
+                          className={`custom-option ${bookingData.time === t ? 'selected' : ''}`}
+                          onClick={() => {
+                            setBookingData({...bookingData, time: t});
+                            setIsTimeOpen(false);
+                          }}
+                        >
+                          {t}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
                   <button type="submit" className="btn-solid" style={{ width: '100%' }}>Записаться</button>
                 </form>
                 {progress > 0 && <div className="progress-bar" style={{ marginTop: 15 }}><div className="progress-fill" style={{ width: `${progress}%`, height: 6, background: '#D4AF7A', borderRadius: 6 }}></div></div>}
