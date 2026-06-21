@@ -5,7 +5,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import VerifyModal from './pages/VerifyModal';
-import { createPortal } from 'react-dom';
+import { createPortal } from 'react-dom'; 
+import { useState } from 'react'; // <--- ЭТО ВАЖНО!
 import { Link } from 'react-router-dom';
 import './App.css';
 
