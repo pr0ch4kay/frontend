@@ -143,24 +143,102 @@ export default function Home() {
     setIsBookingModalOpen(true);
   };
 
-  // Список мастеров (6)
+    // Список мастеров (6) - с обновлёнными 100% рабочими фото
   const mastersList = [
-    { name: 'Анна Вольская', role: 'Косметолог-эстетист', exp: '12 лет опыта', img: 'https://randomuser.me/api/portraits/women/68.jpg', special: 'Лицо, инъекции' },
-    { name: 'Екатерина Ли', role: 'Топ-стилист', exp: '9 лет, эксперт', img: 'https://randomuser.me/api/portraits/women/44.jpg', special: 'Окрашивание, стрижки' },
-    { name: 'Мария Теплова', role: 'Визажист', exp: 'Международные сертификаты', img: 'https://randomuser.me/api/portraits/women/90.jpg', special: 'Свадебный макияж' },
-    { name: 'Дмитрий Кравцов', role: 'Мастер маникюра', exp: '7 лет', img: 'https://randomuser.me/api/portraits/men/32.jpg', special: 'Дизайн, укрепление' },
-    { name: 'Ольга Смирнова', role: 'Специалист по лазерной эпиляции', exp: '5 лет', img: 'https://randomuser.me/api/portraits/women/33.jpg', special: 'Все зоны' },
-    { name: 'Ирина Мельник', role: 'Косметолог-эстетист', exp: '10 лет', img: 'https://randomuser.me/api/portraits/women/45.jpg', special: 'Уходовые процедуры' }
+    { 
+      name: 'Анна Вольская', 
+      role: 'Косметолог-эстетист', 
+      exp: '12 лет опыта', 
+      img: 'https://images.pexels.com/photos/2381069/pexels-photo-2381069.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', 
+      special: 'Лицо, инъекции' 
+    },
+    { 
+      name: 'Екатерина Ли', 
+      role: 'Топ-стилист', 
+      exp: '9 лет, эксперт', 
+      img: 'https://images.pexels.com/photos/8970155/pexels-photo-8970155.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', 
+      special: 'Окрашивание, стрижки' 
+    },
+    { 
+      name: 'Мария Теплова', 
+      role: 'Визажист', 
+      exp: 'Международные сертификаты', 
+      img: 'https://images.pexels.com/photos/7760622/pexels-photo-7760622.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', 
+      special: 'Свадебный макияж' 
+    },
+    { 
+      name: 'Дмитрий Кравцов', 
+      role: 'Мастер маникюра', 
+      exp: '7 лет', 
+      img: 'https://images.pexels.com/photos/2881255/pexels-photo-2881255.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', 
+      special: 'Дизайн, укрепление' 
+    },
+    { 
+      name: 'Ольга Смирнова', 
+      role: 'Специалист по лазерной эпиляции', 
+      exp: '5 лет', 
+      img: 'https://images.pexels.com/photos/3913001/pexels-photo-3913001.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', 
+      special: 'Все зоны' 
+    },
+    { 
+      name: 'Ирина Мельник', 
+      role: 'Косметолог-эстетист', 
+      exp: '10 лет', 
+      img: 'https://images.pexels.com/photos/3265285/pexels-photo-3265285.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', 
+      special: 'Уходовые процедуры' 
+    }
   ];
 
-  // Услуги (6)
+    // Услуги (6) - с обновлёнными рабочими фото
   const services = [
-    { title: 'Косметология', desc: 'Чистка лица, уходовые процедуры, массаж', price: 'от 4500 ₽', duration: '60–90 мин', icon: 'fa-spa', img: 'https://mgm1.ru/upload/cssinliner_webp/iblock/0f1/8wd63vhf554msjgsco46qr7runrwfs2f.webp' },
-    { title: 'Волосы', desc: 'Окрашивание, уход, укладки, ботокс', price: 'от 5500 ₽', duration: '120–180 мин', icon: 'fa-cut', img: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?w=600' },
-    { title: 'Makeup', desc: 'Вечерний, свадебный, nude makeup', price: 'от 3500 ₽', duration: '60 мин', icon: 'fa-makeup', img: 'https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=600' },
-    { title: 'Лазерная эпиляция', desc: 'Безболезненно, на любой зоне', price: 'от 1500 ₽', duration: '15–40 мин', icon: 'fa-bolt', img: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=600' },
-    { title: 'Маникюр', desc: 'Покрытие, дизайн, уход за кутикулой', price: 'от 2000 ₽', duration: '60 мин', icon: 'fa-hand-peace', img: 'https://i.pinimg.com/originals/55/e4/a7/55e4a78078abb129bfffa927a8c88857.jpg?nii=t' },
-    { title: 'Педикюр', desc: 'Комплексный уход за ногами', price: 'от 2500 ₽', duration: '70 мин', icon: 'fa-shoe-prints', img: 'https://i.pinimg.com/originals/8b/a8/b5/8ba8b532d7d36885225a26b9463402bd.png?nii=t' }
+    { 
+      title: 'Косметология', 
+      desc: 'Чистка лица, уходовые процедуры, массаж', 
+      price: 'от 4500 ₽', 
+      duration: '60–90 мин', 
+      icon: 'fa-spa', 
+      img: 'https://images.pexels.com/photos/4283409/pexels-photo-4283409.jpeg?auto=compress&cs=tinysrgb&w=600' 
+    },
+    { 
+      title: 'Волосы', 
+      desc: 'Окрашивание, уход, укладки, ботокс', 
+      price: 'от 5500 ₽', 
+      duration: '120–180 мин', 
+      icon: 'fa-cut', 
+      img: 'https://images.pexels.com/photos/3993444/pexels-photo-3993444.jpeg?auto=compress&cs=tinysrgb&w=600' 
+    },
+    { 
+      title: 'Makeup', 
+      desc: 'Вечерний, свадебный, nude makeup', 
+      price: 'от 3500 ₽', 
+      duration: '60 мин', 
+      icon: 'fa-makeup', 
+      img: 'https://images.pexels.com/photos/1391353/pexels-photo-1391353.jpeg?auto=compress&cs=tinysrgb&w=600' 
+    },
+    { 
+      title: 'Лазерная эпиляция', 
+      desc: 'Безболезненно, на любой зоне', 
+      price: 'от 1500 ₽', 
+      duration: '15–40 мин', 
+      icon: 'fa-bolt', 
+      img: 'https://images.pexels.com/photos/4884237/pexels-photo-4884237.jpeg?auto=compress&cs=tinysrgb&w=600' 
+    },
+    { 
+      title: 'Маникюр', 
+      desc: 'Покрытие, дизайн, уход за кутикулой', 
+      price: 'от 2000 ₽', 
+      duration: '60 мин', 
+      icon: 'fa-hand-peace', 
+      img: 'https://images.pexels.com/photos/4610499/pexels-photo-4610499.jpeg?auto=compress&cs=tinysrgb&w=600' 
+    },
+    { 
+      title: 'Педикюр', 
+      desc: 'Комплексный уход за ногами', 
+      price: 'от 2500 ₽', 
+      duration: '70 мин', 
+      icon: 'fa-shoe-prints', 
+      img: 'https://images.pexels.com/photos/29205760/pexels-photo-29205760.jpeg?auto=compress&cs=tinysrgb&w=600' 
+    }
   ];
 
   const galleryImages = [
